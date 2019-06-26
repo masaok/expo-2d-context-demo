@@ -86,25 +86,26 @@ export default class DemoScreen extends React.Component {
 
         // TODO: Image Demo
 
-        const img_string = '../assets/images/icon.png'
+        // const img_string = '../assets/images/icon.png'
         // const image = require(img_string)
         // const download = await Asset.fromModule(myImage).downloadAsync()
 
         // Evan Bacon: https://snack.expo.io/@bacon/expo-graphics-ar-remote-image-example
-        const imageUri = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Ben_Affleck_by_Gage_Skidmore_3.jpg/440px-Ben_Affleck_by_Gage_Skidmore_3.jpg"
-        const uri = await AssetUtils.uriAsync(imageUri)
+        // const imageUri = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Ben_Affleck_by_Gage_Skidmore_3.jpg/440px-Ben_Affleck_by_Gage_Skidmore_3.jpg"
+        // const uri = await AssetUtils.uriAsync(imageUri)
 
         // const asset = await this.getAsset('./assets/images/icon.png') // can't find variable document (because it's an HTML test example)
         const asset = {
           height: 10,
           width: 10,
-          data: uri
+          // data: uri
           // data: download,
-          // localUri: '../assets/images/icon.png'  // TypeError
+          localUri: '../assets/images/icon.png'  // TypeError
           // uri: 'http://i.imgur.com/k73egsW.png' // bad asset
           // localUri: 'http://i.imgur.com/k73egsW.png' // TypeError
         }
 
+        // TODO: "EXGL: Invalid pixel data argument for gl.texImage2D()!"
         // ctx.drawImage(asset, 20, 20)  // getting closer; unhandled Promise Rejection
 
         // 2D Context drawImage example works
