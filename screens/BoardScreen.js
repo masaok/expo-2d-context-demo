@@ -6,6 +6,12 @@ import { GLView } from 'expo-gl';
 import Expo2DContext from 'expo-2d-context';
 // import { getAssetInfoAsync } from 'expo-media-library';
 
+import myImage from '../assets/images/icon.png'
+
+// Evan Bacon's Expo Graphics snack: 
+// https://snack.expo.io/@bacon/expo-graphics-ar-remote-image-example
+import AssetUtils from 'expo-asset-utils';
+
 export default class DemoScreen extends React.Component {
     render() {
         return (
@@ -14,6 +20,14 @@ export default class DemoScreen extends React.Component {
             onContextCreate={this._onGLContextCreate}
           />
         );
+    }
+    getAsset = (name) => {
+      return new Promise((resolve, reject) => {
+        let img = document.createElement("IMG")
+        img.onload = () => resolve(img)
+        img.onerror = reject
+        img.src = name
+      })
     }
     drawLine = (gl) => {
       const ctx = this.ctx
@@ -67,18 +81,40 @@ export default class DemoScreen extends React.Component {
         await ctx.initializeText();
         ctx.fillStyle = "blue";
         ctx.font = "italic 72pt sans-serif";
-        ctx.fillText("Hey Galaxy", 10, 100);
-        ctx.flush();
+        ctx.fillText("Hey Galaxy", 10, 900);
+        // ctx.flush();
 
         // TODO: Image Demo
-        // const img = await getAsset('./assets/images/icon.png')
-        const img = {
+
+        const img_string = '../assets/images/icon.png'
+        // const image = require(img_string)
+        // const download = await Asset.fromModule(myImage).downloadAsync()
+
+        // Evan Bacon: https://snack.expo.io/@bacon/expo-graphics-ar-remote-image-example
+        const imageUri = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Ben_Affleck_by_Gage_Skidmore_3.jpg/440px-Ben_Affleck_by_Gage_Skidmore_3.jpg"
+        const uri = await AssetUtils.uriAsync(imageUri)
+
+        // const asset = await this.getAsset('./assets/images/icon.png') // can't find variable document (because it's an HTML test example)
+        const asset = {
           height: 10,
           width: 10,
-          localUri: './assets/images/icon.png'
+          data: uri
+          // data: download,
+          // localUri: '../assets/images/icon.png'  // TypeError
+          // uri: 'http://i.imgur.com/k73egsW.png' // bad asset
+          // localUri: 'http://i.imgur.com/k73egsW.png' // TypeError
         }
-        ctx.drawImage(img)
-      
+
+        // ctx.drawImage(asset, 20, 20)  // getting closer; unhandled Promise Rejection
+
+        // 2D Context drawImage example works
+        // https://github.com/expo/expo-2d-context/blob/master/test/lib/expo/index.js#L454
+        var ctx2 = new Expo2DContext(gl, {renderWithOffscreenBuffer: true});
+        ctx2.fillStyle = '#0f0'; // green
+        ctx2.fillRect(10, 10, 100, 50);
+        ctx2.flush()
+        ctx.fillStyle = '#f00'; // white (no effect?)
+        ctx.drawImage(ctx2, 0, 0);
 
         ctx.flush(); // render the buffered GL calls
     }
