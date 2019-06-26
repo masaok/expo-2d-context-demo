@@ -23,7 +23,7 @@ export default class DemoScreen extends React.Component {
       ctx.strokeStyle = "gray";
       ctx.stroke();
     }
-    _onGLContextCreate = (gl) => {
+    _onGLContextCreate = async (gl) => {
         var ctx = new Expo2DContext(gl);
         this.ctx = ctx
 
@@ -61,12 +61,22 @@ export default class DemoScreen extends React.Component {
         ctx.stroke();
 
         this.drawLine(gl)
+
+        // Text
+        await ctx.initializeText();
+        ctx.fillStyle = "blue";
+        ctx.font = "italic 72pt sans-serif";
+        ctx.fillText("Hey Galaxy", 10, 100);
+        ctx.flush();
+
+        // Image
+
         ctx.flush(); // render the buffered GL calls
     }
 }
 
 DemoScreen.navigationOptions = {
-  title: 'Expo 2D Context Demo',
+  title: 'Icon Board Demo',
 };
 
 const styles = StyleSheet.create({
