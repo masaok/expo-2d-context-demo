@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native';
 import { GLView } from 'expo-gl';
 // import React from 'react';
 import Expo2DContext from 'expo-2d-context';
+// import { getAssetInfoAsync } from 'expo-media-library';
 
 export default class DemoScreen extends React.Component {
     render() {
@@ -69,7 +70,15 @@ export default class DemoScreen extends React.Component {
         ctx.fillText("Hey Galaxy", 10, 100);
         ctx.flush();
 
-        // Image
+        // TODO: Image Demo
+        // const img = await getAsset('./assets/images/icon.png')
+        const img = {
+          height: 10,
+          width: 10,
+          localUri: './assets/images/icon.png'
+        }
+        ctx.drawImage(img)
+      
 
         ctx.flush(); // render the buffered GL calls
     }
